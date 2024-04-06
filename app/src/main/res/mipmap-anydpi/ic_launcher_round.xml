@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@drawable/ic_fondcolor" />
+    <foreground android:drawable="@drawable/ic_launcher_rb" />
+    <monochrome android:drawable="@drawable/recipebook" />
+</adaptive-icon>

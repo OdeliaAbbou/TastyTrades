@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.MainActivity">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/main_IMG_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/oranges" />
+
+    <TextView
+        android:id="@+id/main_TXT_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:text="TASTY TRADES"
+        android:textSize="50sp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:background="@color/Red_400"
+        />
+    <Button
+        android:id="@+id/main_Button_allList"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="250dp"
+        android:contentDescription="  "
+        android:text="show all recipies list "
+        android:backgroundTint="@color/Red_400"
+        android:visibility="invisible"/>
+    <Button
+        android:id="@+id/main_Button_AddRecipie"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="320dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="200dp"
+        android:contentDescription=""
+        android:background="@drawable/plus"
+        android:textSize="50sp"
+        android:text="+"
+        />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/main_Input_recipeNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="80dp"
+        android:layout_marginTop="125dp"
+        android:background="@color/white"
+        android:maxLength="20"
+        android:maxLines="1"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="Recipe Name"
+        />
+    <Button
+        android:id="@+id/main_Button_SearchRecipe"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="200dp"
+        android:contentDescription="  "
+        android:text="Search recipe "
+        android:backgroundTint="@color/Red_400"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/main_RV_recipes"
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        android:layout_marginTop="300dp"
+        tools:listitem="@layout/horizontale_recipe_item" />
+
+
+
+
+
+</RelativeLayout>
