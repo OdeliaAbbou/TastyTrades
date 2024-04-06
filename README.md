@@ -4,7 +4,7 @@ The TasteRecipe application is a recipe application that allows users to add rec
 
 When adding a recipe, the user enters image information, recipe name, ingredients and preparation instructions.
 
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<img width="199" alt="image" src="https://github.com/OdeliaTorjman/TastyTrades/assets/156775579/066af329-4b03-4207-b47e-ed4367f9477d">
 
 
 It also allows users to enter the name of the recipe they are looking for in the search bar, for greater ease of use.
