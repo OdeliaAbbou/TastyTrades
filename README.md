@@ -1,5 +1,5 @@
 The TasteRecipe application is a recipe application that allows users to add recipes and visualize them. 
-Each time a user adds a recipe, it is added to the database. (FireBase)
+Each time a user adds a recipe, it is added to the database. (FireBase) 
 
 ![image](https://github.com/OdeliaTorjman/TastyTrades/assets/156775579/f70bf4ec-7a59-47f8-9a8c-b903cdf319b2)
 
