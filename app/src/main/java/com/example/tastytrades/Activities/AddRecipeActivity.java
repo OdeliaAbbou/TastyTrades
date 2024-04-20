@@ -112,7 +112,9 @@ public class AddRecipeActivity extends AppCompatActivity {
     }
     public void addRecipeToFirebase(Recipe recipe){
         // Getting a unique key for each new recipe
-        String key = bookRef.push().getKey();
+//        String key = bookRef.push().getKey();
+        String key = recipe.getName();
+
         bookRef.child(key).setValue(recipe).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
