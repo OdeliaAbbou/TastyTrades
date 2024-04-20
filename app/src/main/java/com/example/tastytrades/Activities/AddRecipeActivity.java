@@ -102,7 +102,7 @@ public class AddRecipeActivity extends AppCompatActivity {
 
     private void addRecipe() {
 
-        String name =addRecipe_Input_name.getText().toString();;
+        String name =addRecipe_Input_name.getText().toString();
         String ingredients = addRecipe_Input_Ingredients.getText().toString();
         String instructions = addRecipe_Input_Instructions.getText().toString();
         String URL = addRecipe_Input_URL.getText().toString();
