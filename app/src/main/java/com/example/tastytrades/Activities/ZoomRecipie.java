@@ -26,6 +26,8 @@ public class ZoomRecipie extends AppCompatActivity {
     private TextView zoom_TXT_instructionTitle;
     private TextView zoom_TXT_Instructions;
     private Recipe recipe;
+    public final String defaultIMG = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg60O2tligU0k5gSNPKj7QYsuVB7KuVSIcOA&s";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +48,6 @@ public class ZoomRecipie extends AppCompatActivity {
 
     }
 
-
-
     private void loadRecipie() {
         String jsonRecipe = getIntent().getStringExtra("recipe");
 
@@ -58,24 +58,30 @@ public class ZoomRecipie extends AppCompatActivity {
                 String ingredients = recipe.getIngredients();
                 String instructions = recipe.getInstructions();
                 String URL = recipe.getPoster();
-                if(URL.equals(""))
-                    URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg60O2tligU0k5gSNPKj7QYsuVB7KuVSIcOA&s";
+                if(URL.isEmpty())
+                    URL = defaultIMG;
+
                 zoom_TXT_name.setText(nom);
                 zoom_TXT_ingredients.setText(ingredients);
                 zoom_TXT_Instructions.setText(instructions);
-                ImageLoader imageLoader = new ImageLoader(this);
-                imageLoader.load(URL,zoom_IMG_background);
 
+                if (!isFinishing() && !isDestroyed()) {
+                    Glide.with(this).load(URL).into(zoom_IMG_background);
+                }
             } catch (JsonSyntaxException e) {
-
+                Log.e("ZoomRecipie", "Error parsing JSON", e);
             }
         } else {
             changeActivity();
         }
     }
+
+
     private void changeActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+        if (!isFinishing() && !isDestroyed()) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

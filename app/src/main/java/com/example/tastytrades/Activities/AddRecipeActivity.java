@@ -93,9 +93,11 @@ public class AddRecipeActivity extends AppCompatActivity {
     }
 
     private void changeActivity() {
-        Intent intent =  new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+        if (!isFinishing() && !isDestroyed()) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void addRecipe() {
@@ -112,7 +114,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     }
     public void addRecipeToFirebase(Recipe recipe){
         // Getting a unique key for each new recipe
-        String key = recipe.getName();
+       String key = recipe.getName();
 
         bookRef.child(key).setValue(recipe).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

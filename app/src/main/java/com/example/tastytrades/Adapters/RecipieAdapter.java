@@ -1,5 +1,6 @@
 package com.example.tastytrades.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.tastytrades.Activities.ZoomRecipie;
 import com.example.tastytrades.Model.BookRecipes;
 import com.example.tastytrades.Model.Recipe;
@@ -45,9 +47,19 @@ public class RecipieAdapter extends RecyclerView.Adapter<RecipieAdapter.RecipeVi
 
         Recipe recipe = bookRecipes.getAllRecipes().get(position);
         if(recipe.getPoster().equals(""))
-            ImageLoader.getInstance().load(defaultIMG, holder.recipe_IMG_poster);
-        else
-            ImageLoader.getInstance().load(recipe.getPoster(), holder.recipe_IMG_poster);
+            recipe.setPoster(defaultIMG);
+
+        Context context = holder.itemView.getContext();
+        if (context instanceof Activity) {
+            Activity activity = (Activity) context;
+            if (!activity.isFinishing() && !activity.isDestroyed()) {
+                Glide.with(context).load(recipe.getPoster()).into(holder.recipe_IMG_poster);
+            }
+        }
+        else {
+            Glide.with(context).load(recipe.getPoster()).into(holder.recipe_IMG_poster);
+        }
+
         holder.recipe_LBL_name.setText(recipe.getName());
         holder.recipe_LBL_ingredients.setText(recipe.getIngredients());
         holder.recipe_LBL_instructions.setText(recipe.getInstructions());

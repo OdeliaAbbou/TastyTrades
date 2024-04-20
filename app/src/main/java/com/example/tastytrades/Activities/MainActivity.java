@@ -85,9 +85,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changeActivity() {
-        Intent intent = new Intent(this, AddRecipeActivity.class);
-        startActivity(intent);
-        finish();
+        if (!isFinishing() && !isDestroyed()) {
+            Intent intent = new Intent(this, AddRecipeActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void initViews() {
