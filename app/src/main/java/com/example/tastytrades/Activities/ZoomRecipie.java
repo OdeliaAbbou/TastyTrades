@@ -26,8 +26,7 @@ public class ZoomRecipie extends AppCompatActivity {
     private TextView zoom_TXT_instructionTitle;
     private TextView zoom_TXT_Instructions;
     private Recipe recipe;
-    public final String defaultIMG = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg60O2tligU0k5gSNPKj7QYsuVB7KuVSIcOA&s";
-
+    public final String defaultIMG = "https://firebasestorage.googleapis.com/v0/b/tastyrecipe-880ca.appspot.com/o/images%2Ffood.jpeg?alt=media&token=a50e9a48-e837-4af9-9818-bac0aa00692b";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,24 +49,22 @@ public class ZoomRecipie extends AppCompatActivity {
 
     private void loadRecipie() {
         String jsonRecipe = getIntent().getStringExtra("recipe");
-
         if (jsonRecipe != null) {
             try {
                 recipe = new Gson().fromJson(jsonRecipe, Recipe.class);
-                String nom = recipe.getName();
-                String ingredients = recipe.getIngredients();
-                String instructions = recipe.getInstructions();
-                String URL = recipe.getPoster();
-                if(URL.isEmpty())
-                    URL = defaultIMG;
-
-                zoom_TXT_name.setText(nom);
-                zoom_TXT_ingredients.setText(ingredients);
-                zoom_TXT_Instructions.setText(instructions);
-
-                if (!isFinishing() && !isDestroyed()) {
-                    Glide.with(this).load(URL).into(zoom_IMG_background);
+                String imageUrl = recipe.getPoster();
+                if (imageUrl == null || imageUrl.isEmpty()) {
+                    imageUrl = defaultIMG;
                 }
+
+                Glide.with(this)
+                        .load(imageUrl)
+                        .into(zoom_IMG_background);
+
+                zoom_TXT_name.setText(recipe.getName());
+                zoom_TXT_ingredients.setText(recipe.getIngredients());
+                zoom_TXT_Instructions.setText(recipe.getInstructions());
+
             } catch (JsonSyntaxException e) {
                 Log.e("ZoomRecipie", "Error parsing JSON", e);
             }
@@ -75,6 +72,7 @@ public class ZoomRecipie extends AppCompatActivity {
             changeActivity();
         }
     }
+
 
 
     private void changeActivity() {

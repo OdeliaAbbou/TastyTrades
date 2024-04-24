@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.tastytrades.Activities.ZoomRecipie;
 import com.example.tastytrades.Model.BookRecipes;
 import com.example.tastytrades.Model.Recipe;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 
 public class RecipieAdapter extends RecyclerView.Adapter<RecipieAdapter.RecipeViewHolder> {
     BookRecipes bookRecipes = new BookRecipes();
-    public final String defaultIMG = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg60O2tligU0k5gSNPKj7QYsuVB7KuVSIcOA&s";
+    public final String defaultIMG = "https://firebasestorage.googleapis.com/v0/b/tastyrecipe-880ca.appspot.com/o/images%2Ffood.jpeg?alt=media&token=a50e9a48-e837-4af9-9818-bac0aa00692b";
 
     private Context context;
 
@@ -42,41 +43,29 @@ public class RecipieAdapter extends RecyclerView.Adapter<RecipieAdapter.RecipeVi
         return new RecipeViewHolder(view);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecipieAdapter.RecipeViewHolder holder, int position) {
+@Override
+public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
+    Recipe recipe = bookRecipes.getAllRecipes().get(position);
 
-        Recipe recipe = bookRecipes.getAllRecipes().get(position);
-        if(recipe.getPoster().equals(""))
-            recipe.setPoster(defaultIMG);
+    holder.recipe_LBL_name.setText(recipe.getName());
+    holder.recipe_LBL_ingredients.setText(recipe.getIngredients());
+    holder.recipe_LBL_instructions.setText(recipe.getInstructions());
 
-        Context context = holder.itemView.getContext();
-        if (context instanceof Activity) {
-            Activity activity = (Activity) context;
-            if (!activity.isFinishing() && !activity.isDestroyed()) {
-                Glide.with(context).load(recipe.getPoster()).into(holder.recipe_IMG_poster);
-            }
-        }
-        else {
-            Glide.with(context).load(recipe.getPoster()).into(holder.recipe_IMG_poster);
-        }
+    String imageUrl = recipe.getPoster().isEmpty() ? defaultIMG : recipe.getPoster();
+    Glide.with(context)
+            .load(imageUrl)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)  // Ne pas utiliser le cache disque
+            .skipMemoryCache(true)  // Ne pas utiliser le cache memoire
+            .into(holder.recipe_IMG_poster);
 
-        holder.recipe_LBL_name.setText(recipe.getName());
-        holder.recipe_LBL_ingredients.setText(recipe.getIngredients());
-        holder.recipe_LBL_instructions.setText(recipe.getInstructions());
+    holder.item_Button_See.setOnClickListener(v -> {
+        Intent intent = new Intent(context, ZoomRecipie.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("recipe", new Gson().toJson(recipe));
+        context.startActivity(intent);
+    });
+}
 
-
-        holder.item_Button_See.findViewById(R.id.item_Button_See).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View vue) {
-                Intent intent = new Intent(context, ZoomRecipie.class);
-                //je redirige vers une activity mais je ne suis pas ds une activity
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("recipe", new Gson().toJson(recipe));
-                context.startActivity(intent);
-            }
-        });
-
-    }
 
     public BookRecipes getBookRecipes() {
         return bookRecipes;
@@ -116,6 +105,13 @@ public class RecipieAdapter extends RecyclerView.Adapter<RecipieAdapter.RecipeVi
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
             findViews();
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
 
         private void findViews() {

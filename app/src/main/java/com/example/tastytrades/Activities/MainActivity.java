@@ -73,16 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    public boolean isExistRecipe(Recipe recipe){
-    boolean exists = false;
-        for (Recipe r : bookRecipes.getAllRecipes()) {
-        if (r.getName().equals(recipe.getName())) {
-            exists = true;
-            break;
-        }
-    }
-        return exists;
-    }
 
     private void changeActivity() {
         if (!isFinishing() && !isDestroyed()) {
@@ -119,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Recipe recipe = snapshot.getValue(Recipe.class);
                     if (recipe != null ) {
-                        if(!isExistRecipe(recipe))
+                        if(!bookRecipes.isExistRecipe(recipe))
                             bookRecipes.addRecipie(recipe,recipieAdapter);
                     } else {
                         Log.d("readData", "Failed to parse a recipe from Firebase");

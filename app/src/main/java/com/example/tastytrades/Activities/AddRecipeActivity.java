@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -22,15 +23,19 @@ import com.example.tastytrades.Model.BookRecipes;
 import com.example.tastytrades.Model.Recipe;
 import com.example.tastytrades.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.UUID;
 
 public class AddRecipeActivity extends AppCompatActivity {
     private TextView AddRecipe_TXT_Title;
@@ -38,14 +43,17 @@ public class AddRecipeActivity extends AppCompatActivity {
     private TextInputEditText addRecipe_Input_name;
     private TextInputEditText addRecipe_Input_Ingredients;
     private TextInputEditText addRecipe_Input_Instructions;
-    private TextInputEditText addRecipe_Input_URL;
     private Button AddRecipe_Button_AddRecipeB;
+    private Button AddRecipe_Button_AddImage;
+    private ShapeableImageView addRecipe_IMG_img;
     private Recipe recipe;
     private RecipieAdapter recipieAdapter;
     private FirebaseDatabase db;
     private DatabaseReference bookRef;
     private BookRecipes bookRecipes;
-
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    private String imageFromDB;
 
 
     @Override
@@ -55,9 +63,33 @@ public class AddRecipeActivity extends AppCompatActivity {
         findViews();
         initViews();
         readData();
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+
         AddRecipe_Button_AddRecipeB.setOnClickListener(view -> addRecipe());
+        AddRecipe_Button_AddImage.setOnClickListener(view -> pickImage());
+
 
     }
+    private void pickImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri selectedImageUri = data.getData();
+            addRecipe_IMG_img.setImageURI(selectedImageUri);
+            uploadImage(selectedImageUri);
+        }
+    }
+
     private void readData() {
         // Read once from the database
         bookRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -99,21 +131,53 @@ public class AddRecipeActivity extends AppCompatActivity {
             finish();
         }
     }
+private void addRecipe() {
+    if (recipe == null) {
+        if (addRecipe_Input_name.getText().toString().isEmpty() || addRecipe_Input_Ingredients.getText().toString().isEmpty() || addRecipe_Input_Instructions.getText().toString().isEmpty())
+            toastAndVibrate("Data can't be empty.");
+        else {
+            if(bookRecipes.isExistRecipeByName(addRecipe_Input_name.getText().toString()))
+                toastAndVibrate("Recipe Name already used.");
+            else {
 
-    private void addRecipe() {
+                String name = addRecipe_Input_name.getText().toString();
+                String ingredients = addRecipe_Input_Ingredients.getText().toString();
+                String instructions = addRecipe_Input_Instructions.getText().toString();
 
-        String name =addRecipe_Input_name.getText().toString();
-        String ingredients = addRecipe_Input_Ingredients.getText().toString();
-        String instructions = addRecipe_Input_Instructions.getText().toString();
-        String URL = addRecipe_Input_URL.getText().toString();
-        recipe = new Recipe(name,ingredients, instructions,URL);
-        addRecipeToFirebase(recipe);
-        toastAndVibrate("Recipie added successfully!");
-        changeActivity();
+                recipe = new Recipe(name, ingredients, instructions, imageFromDB);
 
+
+                addRecipeToFirebase(recipe);
+                toastAndVibrate("Recipe added successfully!");
+                changeActivity();
+            }
+        }
     }
+}
+
+
+
+    private void uploadImage(Uri filePath) {
+        if (filePath != null) {
+            StorageReference ref = storageReference.child("images/" + UUID.randomUUID().toString());
+
+            ref.putFile(filePath)
+                    .addOnSuccessListener(taskSnapshot -> taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
+                        String imageUrl = uri.toString();
+                        imageFromDB = imageUrl;
+                        Log.d("UploadImage", "Image URL: " + imageUrl);
+                    }))
+                    .addOnFailureListener(e -> {
+                        Log.e("Firebase", "Failed to upload image to Firebase", e);
+                        Toast.makeText(getApplicationContext(), "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Log.e("UploadImage", "File path is null");
+        }
+    }
+
+
     public void addRecipeToFirebase(Recipe recipe){
-        // Getting a unique key for each new recipe
        String key = recipe.getName();
 
         bookRef.child(key).setValue(recipe).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -131,8 +195,9 @@ public class AddRecipeActivity extends AppCompatActivity {
         addRecipe_Input_name= findViewById(R.id.addRecipe_Input_name);
         addRecipe_Input_Ingredients= findViewById(R.id.addRecipe_Input_Ingredients);
         addRecipe_Input_Instructions= findViewById(R.id.addRecipe_Input_Instructions);
-        addRecipe_Input_URL= findViewById(R.id.addRecipe_Input_URL);
         AddRecipe_Button_AddRecipeB= findViewById(R.id.AddRecipe_Button_AddRecipeB);
+        AddRecipe_Button_AddImage = findViewById(R.id.AddRecipe_Button_AddImage);
+        addRecipe_IMG_img = findViewById(R.id.addRecipe_IMG_img);
 
     }
     private void toastAndVibrate(String text) {
