@@ -131,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
         main_Button_SearchRecipe= findViewById(R.id.main_Button_SearchRecipe);
         main_Button_allList= findViewById(R.id.main_Button_allList);
         main_Button_AddRecipie= findViewById(R.id.main_Button_AddRecipie);
-        item_Button_See = findViewById(R.id.item_Button_See);
     }
 
     private void searchRecipe() {

@@ -46,17 +46,6 @@
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/data_start_margin"
             android:layout_marginEnd="@dimen/data_end_margin">
-            <ImageButton
-                android:id="@+id/item_Button_See"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:contentDescription=" "
-                android:layout_marginTop="17dp"
-                android:scaleType="fitCenter"
-                android:layout_marginStart="170dp"
-                android:src="@drawable/eye"
-                />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/recipe_LBL_name"

@@ -58,12 +58,6 @@ public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
             .skipMemoryCache(true)  // Ne pas utiliser le cache memoire
             .into(holder.recipe_IMG_poster);
 
-    holder.item_Button_See.setOnClickListener(v -> {
-        Intent intent = new Intent(context, ZoomRecipie.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("recipe", new Gson().toJson(recipe));
-        context.startActivity(intent);
-    });
 }
 
 
@@ -101,7 +95,6 @@ public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
         private MaterialTextView recipe_LBL_name;
         private MaterialTextView recipe_LBL_ingredients;
         private MaterialTextView recipe_LBL_instructions;
-        private ImageButton item_Button_See;
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
             findViews();
@@ -109,7 +102,14 @@ public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        Recipe recipe = bookRecipes.getAllRecipes().get(pos);
+                        Intent intent = new Intent(context, ZoomRecipie.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("recipe", new Gson().toJson(recipe));
+                        context.startActivity(intent);
+                    }
                 }
             });
         }
@@ -119,7 +119,6 @@ public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
             recipe_LBL_name = itemView.findViewById(R.id.recipe_LBL_name);
             recipe_LBL_ingredients = itemView.findViewById(R.id.recipe_LBL_ingredients);
             recipe_LBL_instructions = itemView.findViewById(R.id.recipe_LBL_instructions);
-            item_Button_See= itemView.findViewById(R.id.item_Button_See);
         }
 
     }
