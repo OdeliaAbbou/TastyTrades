@@ -1,5 +1,5 @@
 The TasteRecipe application is a recipe application that allows users to add recipes and view them. 
-Each time a user adds a recipe, it is added to the database. Firebase DataBase ,and the recipe photo is stored in Firebase Storage.
+Each time a user adds a recipe, it is added to the Firebase DataBase ,and the recipe photo is stored in Firebase Storage.
 
 ![image](https://github.com/OdeliaTorjman/TastyTrades/assets/156775579/2f682bcb-a0ee-499f-8593-463d906ff015)
 
