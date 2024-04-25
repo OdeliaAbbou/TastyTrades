@@ -1,18 +1,29 @@
-The TasteRecipe application is a recipe application that allows users to add recipes and visualize them. 
-Each time a user adds a recipe, it is added to the database. (FireBase) 
+The TasteRecipe application is a recipe application that allows users to add recipes and view them. 
+Each time a user adds a recipe, it is added to the database. Firebase DataBase ,and the recipe photo is stored in Firebase Storage.
 
-![image](https://github.com/OdeliaTorjman/TastyTrades/assets/156775579/f70bf4ec-7a59-47f8-9a8c-b903cdf319b2)
-
-When adding a recipe, the user enters image information, recipe name, ingredients and preparation instructions.
-
-<img width="199" alt="image" src="https://github.com/OdeliaTorjman/TastyTrades/assets/156775579/066af329-4b03-4207-b47e-ed4367f9477d">
+![image](https://github.com/OdeliaTorjman/TastyTrades/assets/156775579/2f682bcb-a0ee-499f-8593-463d906ff015)
 
 
-It also allows users to enter the name of the recipe they are looking for in the search bar, for greater ease of use.
+When adding a recipe, the user enters information about the recipe name, ingredients and preparation instructions, which must not be empty.
 
-![image](https://github.com/OdeliaTorjman/TastyTrades/assets/156775579/aee6c54d-08db-4bc6-8944-7e906c6b9653)
+If the name has already been taken, a pop-up window will ask the user to change the name.
+The user must also add a photo, but if he doesn't:
+ a default photo will be associated.
 
 
-The full recipe display page allows users to scroll to view the full text of ingredients and instructions.
+![image](https://github.com/OdeliaTorjman/TastyTrades/assets/156775579/5cb5674e-4e4e-4c07-9d3d-b7c7996bd31a)
 
-![image](https://github.com/OdeliaTorjman/TastyTrades/assets/156775579/edecb6e6-f1f1-48af-9fec-e2a2e164fcc3)
+
+
+The site also allows users to enter the name of the recipe they are looking for in the search bar, for greater ease of use.
+![image](https://github.com/OdeliaTorjman/TastyTrades/assets/156775579/535dd77f-5ff5-4fb8-8806-57aaa32ba828)
+
+
+
+The full recipe display page allows users to scroll the full page containing recipe information.
+
+![image](https://github.com/OdeliaTorjman/TastyTrades/assets/156775579/c04b2b96-d5b7-4737-b81b-b685bc2a42d3)
+
+![image](https://github.com/OdeliaTorjman/TastyTrades/assets/156775579/6e8261df-2238-4325-8e3a-02c3a6441d10)
+
+
