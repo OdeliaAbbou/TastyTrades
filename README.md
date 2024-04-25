@@ -7,6 +7,7 @@ Each time a user adds a recipe, it is added to the Firebase DataBase ,and the re
 When adding a recipe, the user enters information about the recipe name, ingredients and preparation instructions, which must not be empty.
 
 If the name has already been taken, a pop-up window will ask the user to change the name.
+
 The user must also add a photo, but if he doesn't:
  a default photo will be associated.
 
