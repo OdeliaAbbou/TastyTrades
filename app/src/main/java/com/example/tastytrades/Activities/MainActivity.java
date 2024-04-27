@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Recipe recipe = snapshot.getValue(Recipe.class);
                     if (recipe != null ) {
-                        if(!bookRecipes.isExistRecipe(recipe))
+                        if(!bookRecipes.isExistRecipeByName(recipe.getName()))
                             bookRecipes.addRecipie(recipe,recipieAdapter);
                     } else {
                         Log.d("readData", "Failed to parse a recipe from Firebase");

@@ -51,16 +51,6 @@ public Recipe findRecipe(String name){
         recipieAdapter.notifyDataChange();
     }
 
-    public boolean isExistRecipe(Recipe recipe){
-    boolean exists = false;
-        for (Recipe r : allRecipies) {
-        if (r.getName().equals(recipe.getName())) {
-            exists = true;
-            break;
-        }
-    }
-        return exists;
-    }
 
     public boolean isExistRecipeByName(String name){
         boolean exists = false;
