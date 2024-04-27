@@ -17,6 +17,7 @@ The user must also add a photo, but if he doesn't:
 
 
 The site also allows users to enter the name of the recipe they are looking for in the search bar, for greater ease of use.
+
 ![image](https://github.com/OdeliaTorjman/TastyTrades/assets/156775579/535dd77f-5ff5-4fb8-8806-57aaa32ba828)
 
 
